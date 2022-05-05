@@ -36,11 +36,6 @@ public class ResponseResultBodyAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         //已经被包装,或者直接返回包装类型的 就不在处理了防止重复包裹的问题出现
-//        if (body instanceof BasicResponse || body instanceof AjaxResponseDto || body instanceof PageResponseDto || body instanceof RemoteResponseDto) {
-//            return body;
-//        }
-
-        //已经被包装,或者直接返回包装类型的 就不在处理了防止重复包裹的问题出现
         if (body instanceof BasicResponse) {
             return body;
         }
@@ -61,22 +56,22 @@ public class ResponseResultBodyAdvice implements ResponseBodyAdvice<Object> {
     }
 
     private Object disposeRemoteAnnotation(Object body, MethodParameter returnType, ServerHttpRequest request) {
+        //从request 中取出存放的消息id和时间戳
         HttpServletRequest hRequest = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         Object msgId = hRequest.getAttribute(RemoteReqConstants.MESSAGE_ID);
         Object timstamp = hRequest.getAttribute(RemoteReqConstants.TIMESTAMP);
-        //从request 中取出存放的消息id和时间戳
-        return RemoteResponseDto.success(new IdCardMsgDto((String) (msgId == null ? "" : msgId),  (long)(timstamp == null ? 0L : timstamp)), body);
-    }
 
-    private Object disposePageAnnotation(Object body) {
-        //PageResponse 不会返回String , 不需要单独处理;
-        if (body instanceof Page) {
-            return PageResponseDto.success((Page) body);
+        if (body instanceof String) {
+            ObjectMapper om = new ObjectMapper();
+            try {
+                return om.writeValueAsString(RemoteResponseDto.success(new IdCardMsgDto((String) (msgId == null ? "" : msgId), (long) (timstamp == null ? 0L : timstamp)), body));
+            } catch (JsonProcessingException e) {
+                throw new BusinessException("ObjectMapper.writeValueAsString();disposeRemoteAnnotation---统一处理返回对象中,自定义转换失败!e={}", e.getMessage());
+            }
         }
-        if (body instanceof PageInfo) {
-            return PageResponseDto.success((PageInfo) body);
-        }
-        throw new BusinessException("使用注解PageResponse,返回的对象必须属于PageHelper中[Page,PageInfo]的一员");
+
+
+        return RemoteResponseDto.success(new IdCardMsgDto((String) (msgId == null ? "" : msgId), (long) (timstamp == null ? 0L : timstamp)), body);
     }
 
     private Object disposeAjaxAnnotation(Object body, MethodParameter returnType) {
@@ -89,13 +84,22 @@ public class ResponseResultBodyAdvice implements ResponseBodyAdvice<Object> {
             try {
                 return om.writeValueAsString(AjaxResponseDto.success(body));
             } catch (JsonProcessingException e) {
-                throw new BusinessException("ObjectMapper.writeValueAsString();统一处理返回对象中,自定义转换失败!e={}", e.getMessage());
+                throw new BusinessException("ObjectMapper.writeValueAsString();disposeAjaxAnnotation---统一处理返回对象中,自定义转换失败!e={}", e.getMessage());
             }
         }
         return AjaxResponseDto.success(body);
     }
 
-
+    private Object disposePageAnnotation(Object body) {
+        //PageResponse 不会返回String , 不需要单独处理;
+        if (body instanceof Page) {
+            return PageResponseDto.success((Page) body);
+        }
+        if (body instanceof PageInfo) {
+            return PageResponseDto.success((PageInfo) body);
+        }
+        throw new BusinessException("使用注解PageResponse,返回的对象必须属于PageHelper中[Page,PageInfo]的一员");
+    }
     //ajax返回信息包装注解
     private static final Class<? extends Annotation> AJAX_ANNOTATION_TYPE = AjaxResponse.class;
     //分页返回信息包装注解
