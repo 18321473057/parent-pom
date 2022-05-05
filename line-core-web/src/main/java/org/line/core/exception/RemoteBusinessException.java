@@ -19,5 +19,13 @@ public class RemoteBusinessException extends RuntimeException {
     private IdCardMsgDto idCardMsgDto;
     private String code;
     private List<RemoteResponseDto.RemoteErrorItemDto> errorList;
+
+    public RemoteBusinessException(String message, String code) {
+        super(message);
+        this.code = code;
+    }
+    public RemoteBusinessException( String code) {
+        this.code = code;
+    }
 }
 

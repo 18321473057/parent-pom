@@ -11,14 +11,14 @@ import org.springframework.util.CollectionUtils;
  */
 public class RemoteResponseDto<T> extends BasicResponse {
     //请求相应识别信息
-    private IdCardMsgDto  idCardMsgDto;
+    private IdCardMsgDto  idCard;
     //返回对象
     private T result;
 
 
     public static <T> RemoteResponseDto<T> success(IdCardMsgDto idCardMsgDto, T result) {
         RemoteResponseDto response = getScuuess(RemoteResponseDto.class);
-        response.setIdCardMsgDto(idCardMsgDto);
+        response.setIdCard(idCardMsgDto);
         response.result = result;
         return response;
     }
@@ -27,7 +27,7 @@ public class RemoteResponseDto<T> extends BasicResponse {
         //code和msg覆盖; 没有就默认 500 /系统异常
         RemoteResponseDto response = getError(RemoteResponseDto.class);
         if(null == rException.getIdCardMsgDto()){
-            response.setIdCardMsgDto(rException.getIdCardMsgDto());
+            response.setIdCard(rException.getIdCardMsgDto());
         }
         if (StringUtils.isNotEmpty(rException.getCode())) {
             response.setCode(rException.getCode());
@@ -54,17 +54,17 @@ public class RemoteResponseDto<T> extends BasicResponse {
         if (!CollectionUtils.isEmpty(rException.getErrorList())) {
             response.result = rException.getErrorList();
         }
-        response.setIdCardMsgDto(idCardMsgDto);
+        response.setIdCard(idCardMsgDto);
         return response;
     }
 
 
-    public IdCardMsgDto getIdCardMsgDto() {
-        return idCardMsgDto;
+    public IdCardMsgDto getIdCard() {
+        return idCard;
     }
 
-    public void setIdCardMsgDto(IdCardMsgDto idCardMsgDto) {
-        this.idCardMsgDto = idCardMsgDto;
+    public void setIdCard(IdCardMsgDto idCard) {
+        this.idCard = idCard;
     }
 
     public T getResult() {
