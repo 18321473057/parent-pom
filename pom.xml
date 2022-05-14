@@ -4,6 +4,8 @@
     <modules>
         <module>line-starter-web</module>
         <module>line-core-web</module>
+        <module>line-core-nacos</module>
+        <module>docker</module>
     </modules>
 
     <!-- 继承springboot父工程 版本管理器 -->
@@ -97,6 +99,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
