@@ -1,10 +1,12 @@
 package org.line.core.exception;
 
 import org.apache.commons.lang3.StringUtils;
-import org.line.core.req.RemoteReqConstants;
 import org.line.core.domain.AjaxResponseDto;
 import org.line.core.domain.IdCardMsgDto;
 import org.line.core.domain.RemoteResponseDto;
+import org.line.core.req.RemoteReqConstants;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -45,6 +47,11 @@ public class CustomExceptionAdvice {
                 return RemoteResponseDto.error(new IdCardMsgDto((String) hRequest.getAttribute(RemoteReqConstants.MESSAGE_ID), (long) hRequest.getAttribute(RemoteReqConstants.TIMESTAMP)), rException);
             }
             return RemoteResponseDto.error(rException);
+        } else if (exception instanceof MethodArgumentNotValidException) {
+            MethodArgumentNotValidException mException = (MethodArgumentNotValidException) exception;
+            FieldError objectError = (FieldError) mException.getBindingResult().getAllErrors().get(0);
+            String filed = "字段[" + objectError.getObjectName() + "." + objectError.getField() + "]";
+            return AjaxResponseDto.error(filed + objectError.getDefaultMessage());
         } else {
             throw exception;
         }
