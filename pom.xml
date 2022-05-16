@@ -5,7 +5,7 @@
         <module>line-starter-web</module>
         <module>line-core-web</module>
         <module>line-core-nacos</module>
-     </modules>
+    </modules>
 
     <!-- 继承springboot父工程 版本管理器 -->
     <parent>
@@ -40,7 +40,7 @@
         <mysql.connector.version>8.0.11</mysql.connector.version>
     </properties>
 
-<!--    子maven中一定要显示的申明才会继承-->
+    <!--    子maven中一定要显示的申明才会继承-->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -102,6 +102,10 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
