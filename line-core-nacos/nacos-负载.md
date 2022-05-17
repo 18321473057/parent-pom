@@ -28,3 +28,7 @@ core-iocoi:
 
 IRule: 负载策略顶级接口    
 loadbalancer : 帮助选择的
+
+
+### nacos权限控制
+nacos application.properties 中 设置 nacos.core.auth.enable = true
