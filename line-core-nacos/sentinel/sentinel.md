@@ -16,6 +16,8 @@
 ###  sentinel核心库  / dashboard (控制台)  
 
 ### 降级注解
+
+
 #### @SentinelResource(value="uri"  blockHandler="流控降级方法" fallback="" 
 exceptionToIgnore={}
 )
@@ -23,3 +25,34 @@ exceptionToIgnore={}
 - blockHandler: 处理降级方法;入参一样, 最后可以添加一个BlockException 
 - fallbackClass = ""
 - fallback :  当接口出现异常处理的方法;入参一样, 最后可以添加一个BlockException
+
+
+
+<dependency>
+    <groupId>com.alibaba.cloud</groupId>
+    <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+</dependency>
+
+@Bean
+public SentinelResourceAspect sentinelResourceAspect(){
+    return new  SentinelResourceAspect();
+}
+
+FlowRule rule2 = new FlowRule();
+//资源名称
+rule2.setResource("sentinel1");
+//qps方式
+rule2.setGrade(RuleConstant.FLOW_GRADE_QPS);
+//阈值
+rule2.setCount(1);
+list.add(rule2);
+//加载
+FlowRuleManager.loadRules(list);
+
+
+
+
+
+### 安装
+- 下载sentinel  
+- java -jar -Dserver.port=8858 -Dsentinel.dashboard.auth.username=line -Dsentinel.dashboard.auth.password=ycs19930606  sentinel-dashboard-1.8.0.jar 
