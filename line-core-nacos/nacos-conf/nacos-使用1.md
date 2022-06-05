@@ -42,6 +42,6 @@ Partition tolerance（分区容忍性）
 出现问题排查
   application.properties 中 nacos.inetutils.ip-address=192.168.52.17  (这个是nginx 地址) 
   看看集群列表  conf/cluster.conf  是否有问题
-  删除 nasoc 下data文件夹
+  删除 nacos 下data文件夹
   
 ```

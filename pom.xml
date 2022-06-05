@@ -33,7 +33,9 @@
         <spring.cloud.alibaba.dependencies.version>2.2.5.RELEASE</spring.cloud.alibaba.dependencies.version>
 
         <lombok.version>1.18.4</lombok.version>
-        <fastjson.version>1.2.79</fastjson.version>
+<!--        <fastjson.version>1.2.79</fastjson.version>-->
+        <!-- sentinel 新建规则的时候失败了,使用这个版本的就可以; 可能是fastjson版本不同 -->
+        <fastjson.version>1.2.58</fastjson.version>
         <tk.mapper.version>2.0.2</tk.mapper.version>
         <pagehelper.version>1.2.3</pagehelper.version>
         <druid.version>1.0.27</druid.version>
@@ -112,7 +114,6 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
@@ -138,8 +139,11 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
+        </dependency>
     </dependencies>
-
 
     <build>
         <plugins>

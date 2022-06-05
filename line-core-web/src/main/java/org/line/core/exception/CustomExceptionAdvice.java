@@ -1,5 +1,6 @@
 package org.line.core.exception;
 
+import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
 import org.apache.commons.lang3.StringUtils;
 import org.line.core.domain.AjaxResponseDto;
 import org.line.core.domain.IdCardMsgDto;
@@ -13,20 +14,21 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.UndeclaredThrowableException;
 
 /**
  * @Author: yangcs
  * @Date: 2020/3/28 15:29
- * @Description: 自定义的异常处理controller  不是全局处理,只有继承的类抛出自定义的异常 才会处理
+ * @Description:
  */
-@RestControllerAdvice
+//@RestControllerAdvice
 public class CustomExceptionAdvice {
 
     /**
      * 异常处理逻辑
      */
     @ExceptionHandler(Exception.class)
-    public Object handlerException(Exception exception) throws Exception {
+    public Object handlerException(Exception exception) throws Throwable {
         if (exception instanceof BusinessException) {
             //本地业务异常,返回状态500,以及异常信息;
             BusinessException bException = (BusinessException) exception;
@@ -48,11 +50,17 @@ public class CustomExceptionAdvice {
             }
             return RemoteResponseDto.error(rException);
         } else if (exception instanceof MethodArgumentNotValidException) {
+            //校验异常
             MethodArgumentNotValidException mException = (MethodArgumentNotValidException) exception;
             FieldError objectError = (FieldError) mException.getBindingResult().getAllErrors().get(0);
             String filed = "字段[" + objectError.getObjectName() + "." + objectError.getField() + "]";
             return AjaxResponseDto.error(filed + objectError.getDefaultMessage());
-        } else {
+        }
+//        else if(exception instanceof UndeclaredThrowableException) {
+//            UndeclaredThrowableException undeclaredThrowableException = UndeclaredThrowableException.class.cast(exception);
+//            throw undeclaredThrowableException.getUndeclaredThrowable();
+//        }
+        else   {
             throw exception;
         }
     }
