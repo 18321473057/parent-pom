@@ -1,6 +1,6 @@
 ##### sentinel-dashboard 自身修改开始
 
-###  sentinel 不能讲数据持久化到nacos, 只能在nacos 修改;; 这里只做了,流控
+###  sentinel 不能讲数据持久化到nacos, 只能在nacos 修改;; 这里只做了,流控规则菜单栏的修改
 
 1:引入 nacos , 原来就有 只不过写得是test阶段 
         <dependency>
@@ -11,14 +11,17 @@
         </dependency>
         
 2: sentinel-dashboard resources/application.properties 中添加
+
 # ycs改造标记
 # nacos config server
 sentinel.nacos.serverAddr=192.168.52.17:8847
-#sentinel.nacos.namespace=yom-test
+sentinel.nacos.namespace=yom-test
 #sentinel.nacos.group-id=SENTINEL-GROUP
 #sentinel.nacos.group-id=DEFAULT_GROUP
 sentinel.nacos.user-name=line
 sentinel.nacos.pass-word=ycs19930606...
+
+
 
 3: 将 本文件同级的nacos 文件夹
 拷贝到
@@ -40,7 +43,7 @@ com.alibaba.csp.sentinel.dashboard.rule  目录下
 
 #### 做这些 其实就是 配置nacos的服务连接
 #### 接下来修改后台管理页面请求的地址
-5: 修改 sentinel-dashboard\src\main\webapp\resources\app\scripts\directives\sidebar\sidebar.htmlsidebar.html
+5: 修改 sentinel-dashboard\src\main\webapp\resources\app\scripts\directives\sidebar\sidebar.html
 
 后台管理页面中请求的地址 修改为v2 连接
 
@@ -76,4 +79,4 @@ spring:
             data-type: json
             
             
-###  先install 
+###  先install  sentinel-parent

@@ -50,7 +50,7 @@ public class NacosConfig {
     public ConfigService nacosConfigService(NacosPropertiesConfiguration nacosPropertiesConfiguration) throws Exception {
         Properties properties = new Properties();
         properties.put(PropertyKeyConst.SERVER_ADDR, nacosPropertiesConfiguration.getServerAddr());
-//        properties.put(PropertyKeyConst.NAMESPACE, nacosPropertiesConfiguration.getNamespace());
+        properties.put(PropertyKeyConst.NAMESPACE, nacosPropertiesConfiguration.getNamespace());
         properties.put(PropertyKeyConst.USERNAME, nacosPropertiesConfiguration.getUserName());
         properties.put(PropertyKeyConst.PASSWORD, nacosPropertiesConfiguration.getPassWord());
         return ConfigFactory.createConfigService(properties);
