@@ -5,6 +5,9 @@
         <module>line-starter-web</module>
         <module>line-core-web</module>
         <module>line-core-nacos</module>
+        <module>line-core-seata</module>
+        <module>line-core-dao</module>
+        <module>line-core-inform</module>
     </modules>
 
     <!-- 继承springboot父工程 版本管理器 -->
@@ -143,6 +146,16 @@
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
         </dependency>
+
+
+        <!--切面支持依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+
+
     </dependencies>
 
     <build>
