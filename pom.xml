@@ -9,6 +9,7 @@
         <module>line-core-dao</module>
         <module>line-core-inform</module>
         <module>line-core-agent</module>
+        <module>line-core-utils</module>
     </modules>
 
     <!-- 继承springboot父工程 版本管理器 -->

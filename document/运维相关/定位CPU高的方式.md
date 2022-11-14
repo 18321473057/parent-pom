@@ -1,23 +1,9 @@
-- 数采APP           /portal/pdaProdModel/queryprodmessage2
-
-- 泰博云产品信息查询接口     /portal/api/tbcloud/serviceorder/queryProdMessageOfTbCloud
-
-- 泰博云售后电池三包信息查询                          portal/api/tbcloud/saled_battery/service_info
-
-
-
-
-
-
-
-
-
 top : 先查看进程情况
 
 ![image-20221007150913126](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221007150913126.png)
 
 
-
+top -Hp 22589（进程号）
  ps -mp 22589（进程号） -o THREAD,tid,time   查看线程占用率
 
 ![image-20221007151840124](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20221007151840124.png)
